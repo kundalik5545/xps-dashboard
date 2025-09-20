@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# XPS Dashboard &mdash; Track Your Daily Testing Activity 🚀
 
-## Getting Started
+## Technologies Used 🛠️
 
-First, run the development server:
+- **Next.js** &mdash; Fullstack React Framework ⚛️
+- **Shadcn/UI** &mdash; Modern UI Components 🎨
+- **Motion Primitives** &mdash; Animation Utilities 🌀
+- **Lucide Icons** &mdash; Icon Library 🖼️
+- **Tailwind CSS** &mdash; Utility-first CSS Framework 💨
+- **Prisma** &mdash; Database ORM 🗄️
+- **React Hook Form** &mdash; Form Management 📝
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Project Description 📋
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**XPS Dashboard** is a comprehensive testing management platform designed to help testers organize and streamline their daily activities on Windows. 🖥️
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Core Features 🌟
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Daily Activity Tracking** 📅
+- **Script Management** 📜
+- **Database Table Explorer** 📊
+- **Test Case Management** 🧪
+  - Manual Test Cases ✍️
+  - Automation Test Cases 🤖
+  - Regression Test Screenshots 🖼️
+- **Excel Sheet Organization** 📑
+- **Module & Application Directory** 🗂️
+- **User Guide Repository** 📚
+- **Secure Credential Storage** 🔒
+  - Portal Access Details 🌐
+  - User Management 👥
+  - Password Storage 🗝️
 
-## Learn More
+## Benefits 🎯
 
-To learn more about Next.js, take a look at the following resources:
+- Centralized testing resource management 🗃️
+- Easy access to testing artifacts 🔗
+- Improved team collaboration 🤝
+- Secure information storage 🛡️
+- Streamlined workflow organization 🏃‍♂️
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> _Built for testers, by testers. Enjoy a seamless and secure testing experience!_ ✨
