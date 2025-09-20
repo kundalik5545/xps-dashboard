@@ -3,6 +3,8 @@ import FormModal from "@/components/MyUi/FormModal";
 import PageHeader from "@/components/MyUi/PageHeader";
 import React, { useState } from "react";
 import PortalFilter from "./_components/PortalFilter";
+import { portalColumns } from "./_components/PortalColumns";
+import PortalTable from "./_components/PortalTable";
 
 //Page Header props
 const pageTitle = "Portals Page";
@@ -23,6 +25,15 @@ const page = () => {
         pageDesc={pageDesc}
       />
 
+      {/* Table */}
+      <PortalTable
+        data={data}
+        columns={portalColumns()}
+        onEdit={() => {}}
+        onDelete={() => {}}
+        onMultiRowDelete={() => {}}
+      />
+
       {/* Form */}
       <FormModal
         isDialogOpen={isDialogOpen}
@@ -35,3 +46,18 @@ const page = () => {
 };
 
 export default page;
+
+const data = [
+  {
+    portalName: "Portal 1",
+    appName: "App 1",
+  },
+  {
+    portalName: "Portal 2",
+    appName: "App 2",
+  },
+  {
+    portalName: "Portal 3",
+    appName: "App 3",
+  },
+];

@@ -1,4 +1,4 @@
-export const portalColumns = (onSubmit, onDelete) => [
+export const portalColumns = () => [
   {
     accessorKey: "portalName",
     header: "Portal Name",
