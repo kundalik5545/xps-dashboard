@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { Button } from "../ui/button";
 
 const ModeToggle = () => {
   const { theme, resolvedTheme, setTheme } = useTheme();
@@ -21,12 +22,14 @@ const ModeToggle = () => {
 
   return (
     <div>
-      <button
+      <Button
         onClick={() => setTheme(current === "dark" ? "light" : "dark")}
         aria-label="Toggle color theme"
+        variant={"ghost"}
+        size={"icon"}
       >
         {current === "dark" ? "🌙" : "☀️"}
-      </button>
+      </Button>
     </div>
   );
 };

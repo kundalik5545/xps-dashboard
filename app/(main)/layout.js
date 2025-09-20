@@ -1,4 +1,6 @@
+"use client";
 import { AppSidebar } from "@/components/app-sidebar";
+import ModeToggle from "@/components/AppLayout/ModeToggle";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,18 +15,44 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const MainLayout = ({ children }) => {
-  const params = useParams();
-  console.log(params);
+  const pathname = usePathname();
+  // Get the current path from usePathname
+  let pathSegments = [];
+
+  if (pathname) {
+    pathSegments = pathname.split("/").filter(Boolean);
+  }
+
+  // Build breadcrumb items
+  const breadcrumbItems = pathSegments.map((segment, idx) => {
+    const href = "/" + pathSegments.slice(0, idx + 1).join("/");
+    const isLast = idx === pathSegments.length - 1;
+    return (
+      <React.Fragment key={href}>
+        <BreadcrumbItem>
+          {isLast ? (
+            <BreadcrumbPage>{decodeURIComponent(segment)}</BreadcrumbPage>
+          ) : (
+            <BreadcrumbLink href={href}>
+              {decodeURIComponent(segment)}
+            </BreadcrumbLink>
+          )}
+        </BreadcrumbItem>
+        {!isLast && <BreadcrumbSeparator />}
+      </React.Fragment>
+    );
+  });
+
   return (
     <div>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
               <Separator
@@ -34,24 +62,21 @@ const MainLayout = ({ children }) => {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="/basics">Basics</BreadcrumbLink>
+                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage></BreadcrumbPage>
-                  </BreadcrumbItem>
+                  {pathSegments.length > 0 && (
+                    <BreadcrumbSeparator className="hidden md:block" />
+                  )}
+                  {breadcrumbItems}
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
+
+            <span className="pr-3">
+              <ModeToggle />
+            </span>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              <div className="bg-muted/50 aspect-video rounded-xl" />
-              <div className="bg-muted/50 aspect-video rounded-xl" />
-              <div className="bg-muted/50 aspect-video rounded-xl" />
-            </div>
-            <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-          </div>
+          <div className="flex flex-1 flex-col gap-4">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </div>
