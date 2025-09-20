@@ -76,7 +76,9 @@ const MainLayout = ({ children }) => {
               <ModeToggle />
             </span>
           </header>
-          <div className="flex flex-1 flex-col gap-4">{children}</div>
+          <div className="container mx-auto  flex flex-1 flex-col gap-4">
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </div>
