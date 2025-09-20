@@ -1,0 +1,368 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// datasource db {
+//   provider = "sqlite"
+//   url      = "file:./dev.db"
+// }
+
+datasource pg_db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PortalType {
+  Default
+  XPS
+  EMember
+}
+
+enum SchemeLevel {
+  TL
+  SL
+  ML
+}
+
+enum Module {
+  Details
+  ToolsAndProcess
+  Letters
+  Reports
+  Leavers
+}
+
+enum TaskState {
+  Default
+  Released
+  Resolved
+  Reassign
+}
+
+enum Environment {
+  ST
+  IAT
+  PROD
+  UAT
+}
+
+enum AssignedBy {
+  Default
+  Priti
+  Swamy
+  George
+  Hayley
+  Kundalik
+}
+
+enum QaTaskState {
+  Proposed
+  Active
+  Closed
+  Rejected
+  Reassigned
+}
+
+enum BugState {
+  Proposed
+  Active
+  Released
+  Resolved
+  Closed
+  Reassigned
+}
+
+enum AssignedTo {
+  Default
+  Swamy
+  Priti
+  George
+  Hayley
+  Rohan
+  Julian
+  Kundalik
+}
+
+enum EMemberPortal {
+  Public
+  Admin
+  Cat
+  CatUmbraco
+  Umbraco
+}
+
+enum TaskPriority {
+  Low
+  Medium
+  High
+}
+
+enum RegState {
+  Proposed
+  Active
+  Pending
+  Closed
+}
+
+enum RegPortal {
+  PenScope
+  Public
+  Admin
+  Cat
+  CatUmbraco
+  Umbraco
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  eMemberId       Int?
+  xpsId           Int?
+  userHashId      String?
+  userName        String?
+  password        String?
+  memorableWord   String?
+  xpsSchemeId     Int?
+  eMemberSchemeId Int?
+  statusId        Int?
+  dob             DateTime?
+  niNumber        String?
+  userEmail       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Portal {
+  id            Int        @id @default(autoincrement())
+  portalName    PortalType
+  appName       String
+  userName      String?
+  password      String?
+  memorableWord String?
+  portalUrl     String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model ProposedTask {
+  id            Int         @id @default(autoincrement())
+  qaTaskId      Int
+  qaTaskTitle   String
+  qaTaskState   QaTaskState @default(Proposed)
+  timeAllocated String?
+  timeRemained  String?
+  qaTaskUrl     String?
+  createdAt     DateTime?
+  updatedAt     DateTime    @updatedAt
+}
+
+model Bug {
+  id          Int         @id @default(autoincrement())
+  bugId       Int
+  bugTitle    String
+  bugPortal   PortalType  @default(XPS)
+  qaBugState  BugState    @default(Proposed)
+  environment Environment @default(ST)
+  assignedTo  AssignedTo  @default(Default)
+  bugUrl      String?
+  createdAt   DateTime?
+  updatedAt   DateTime    @updatedAt
+
+  // Relation: one Bug has many BugDescription
+  bugDesc BugDescription[]
+}
+
+model BugDescription {
+  id          Int      @id @default(autoincrement())
+  bugId       Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bug Bug @relation(fields: [bugId], references: [id], onDelete: Cascade)
+}
+
+model XpsMenu {
+  id          Int         @id @default(autoincrement())
+  menuName    String
+  schemeLevel SchemeLevel
+  module      Module
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  descriptions XpsMenuDescription[]
+  scripts      XpsScript[]
+}
+
+model XpsMenuDescription {
+  id          Int      @id @default(autoincrement())
+  menuId      Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  menu XpsMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+}
+
+model XpsTable {
+  id        Int      @id @default(autoincrement())
+  tableName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  descriptions XpsTableDescription[]
+  columns      XpsColumn[]
+}
+
+model XpsScript {
+  id          Int      @id @default(autoincrement())
+  menuId      Int
+  scriptTitle String
+  sqlScript   String?
+  scriptInfo  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  menu XpsMenu @relation(fields: [menuId], references: [id])
+}
+
+model XpsTableDescription {
+  id          Int      @id @default(autoincrement())
+  tableId     Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  table XpsTable @relation(fields: [tableId], references: [id], onDelete: Cascade)
+}
+
+model XpsColumn {
+  id         Int      @id @default(autoincrement())
+  tableId    Int
+  columnName String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  table XpsTable @relation(fields: [tableId], references: [id], onDelete: Cascade)
+}
+
+model XpsUserGuide {
+  id          Int      @id @default(autoincrement())
+  chapterName String
+  chapterNo   Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  descriptions XpsUserGuideDescription[]
+}
+
+model XpsUserGuideDescription {
+  id          Int      @id @default(autoincrement())
+  guideId     Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  guide XpsUserGuide @relation(fields: [guideId], references: [id], onDelete: Cascade)
+}
+
+model EmMenu {
+  id         Int           @id @default(autoincrement())
+  menuName   String
+  portalName EMemberPortal
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  descriptions EmMenuDescription[]
+  scripts      EmScript[]
+}
+
+model EmMenuDescription {
+  id          Int      @id @default(autoincrement())
+  menuId      Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  menu EmMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+}
+
+model EmTable {
+  id        Int      @id @default(autoincrement())
+  tableName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  columns      EmColumn[]
+  descriptions EmTableDescription[]
+}
+
+model EmScript {
+  id          String   @id @default(cuid())
+  menuId      Int
+  scriptTitle String?
+  sqlScript   String?
+  appName     String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  menu EmMenu @relation(fields: [menuId], references: [id])
+}
+
+model EmColumn {
+  id         Int      @id @default(autoincrement())
+  tableId    Int
+  columnName String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  table EmTable @relation(fields: [tableId], references: [id], onDelete: Cascade)
+}
+
+model EmTableDescription {
+  id          Int      @id @default(autoincrement())
+  tableId     Int
+  description String
+  // keep timestamps consistent
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  table EmTable @relation(fields: [tableId], references: [id], onDelete: Cascade)
+}
+
+model ReleasedTask {
+  id          Int          @id @default(autoincrement())
+  taskId      Int
+  taskTitle   String
+  taskState   TaskState?
+  environment Environment?
+  assignedBy  AssignedBy?  @default(Default)
+  comments    String?
+  taskUrl     String?
+  createdAt   DateTime?
+  updatedAt   DateTime     @updatedAt
+}
+
+model DailyTask {
+  id           Int          @id @default(autoincrement())
+  azureId      Int?
+  title        String
+  portalName   PortalType   @default(XPS)
+  appName      RegPortal    @default(PenScope)
+  taskPriority TaskPriority @default(Low)
+  state        RegState     @default(Active)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  comments DailyTaskComment[]
+}
+
+model DailyTaskComment {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task DailyTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
