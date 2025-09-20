@@ -48,7 +48,7 @@ const MainLayout = ({ children }) => {
   });
 
   return (
-    <div>
+    <div className="p-3">
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>

@@ -13,7 +13,7 @@ export const portalColumns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "appName",
-    header: "Portal Name",
+    header: "App Name",
     enableSorting: true,
     enableHiding: true,
     enableColumnFilter: false,

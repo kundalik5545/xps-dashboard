@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const PageHeader = ({
   pageTitle,
@@ -10,8 +11,9 @@ const PageHeader = ({
   setIsDialogOpen,
   setIsEditing,
 }) => {
+  const isMobile = useIsMobile();
   return (
-    <div className="flex flex-col justify-between mb-6 mt-3">
+    <div className="flex flex-col justify-between mb-6 mt-3 ">
       <div className="pageHeader__title flex items-center justify-between">
         <h1 className="text-2xl font-bold">{pageTitle}</h1>
         {buttonText && (
@@ -22,7 +24,7 @@ const PageHeader = ({
               setIsEditing(false);
             }}
           >
-            <Plus /> {buttonText}
+            <Plus /> {isMobile ? "Add" : buttonText}
           </Button>
         )}
       </div>

@@ -50,7 +50,7 @@ const InputFilter = ({ column, placeholder = "Search..." }) => {
         type="text"
         placeholder={placeholder}
         onChange={(e) => column?.setFilterValue(e.target.value)}
-        className="pl-9"
+        className="pl-9 text-foreground"
       />
     </div>
   );
@@ -67,7 +67,7 @@ const SelectFilter = ({ column, placeholder = "Select...", options = [] }) => {
 
   return (
     <Select value={val} onValueChange={handleValueChange}>
-      <SelectTrigger className="w-[240px]">
+      <SelectTrigger className="relative max-w-xs">
         {val === "all"
           ? "All"
           : options.find((opt) => String(opt.value) === String(val))?.label ||
@@ -99,7 +99,7 @@ const SelectFilters = ({ column, options = [], placeholder = "Select..." }) => {
         column.setFilterValue(selectedValue === "all" ? "" : selectedValue);
       }}
     >
-      <SelectTrigger className="w-[240px]">
+      <SelectTrigger className="min-w-[240px]">
         {val === "all"
           ? "All"
           : options.find((opt) => String(opt.value) === String(val))?.label ||
