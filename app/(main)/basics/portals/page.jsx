@@ -1,8 +1,7 @@
 "use client";
 import FormModal from "@/components/MyUi/FormModal";
 import PageHeader from "@/components/MyUi/PageHeader";
-import React, { useState } from "react";
-import PortalFilter from "./_components/PortalFilter";
+import { useState } from "react";
 import { portalColumns } from "./_components/PortalColumns";
 import PortalTable from "./_components/PortalTable";
 
@@ -14,6 +13,16 @@ const pageDesc = "Manage your portals here.";
 const page = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  const onEdit = (record) => {
+    setIsEditing(record);
+    setIsDialogOpen(true);
+  };
+
+  const onDelete = (id) => {
+    console.log("Delete record with id: ", id);
+  };
+
   return (
     <div>
       {/* Page Heading */}
@@ -28,7 +37,7 @@ const page = () => {
       {/* Table */}
       <PortalTable
         data={data}
-        columns={portalColumns()}
+        columns={portalColumns({ onEdit, onDelete })}
         onEdit={() => {}}
         onDelete={() => {}}
         onMultiRowDelete={() => {}}

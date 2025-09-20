@@ -7,6 +7,8 @@ import {
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { TableCell, TableHead, TableRow } from "../ui/table";
+import { Pencil } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 // Checkbox Component => For selecting all rows in the table
 const TableHeadCheckBox = ({ table }) => {
@@ -16,9 +18,7 @@ const TableHeadCheckBox = ({ table }) => {
     <TableHead className={"w-[50px]"}>
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) =>
-          table.getToggleAllPageRowsSelectedHandler(!!value)
-        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select row"
       />
     </TableHead>
@@ -111,6 +111,30 @@ const TableHeading = ({ table, isTableSort }) => {
   );
 };
 
+const TableActions = ({ record, onEdit, onDelete }) => {
+  return (
+    <div className="flex items-center justify-end gap-2">
+      {onEdit && (
+        <Button variant="success" size="icon" onClick={() => onEdit(record)}>
+          <Pencil className="h-4 w-4" />
+        </Button>
+      )}
+      {onDelete && (
+        <Button
+          variant="destructive"
+          size="icon"
+          onClick={() => onDelete(record.id)}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      )}
+    </div>
+  );
+};
+
+const TableActionsHeader = () => {
+  return <span className="flex items-end justify-end text-end">Actions</span>;
+};
 export {
   TableHeadCheckBox,
   TableHeading,
@@ -119,4 +143,6 @@ export {
   TableRowCellCheckBox,
   TableRowCellText,
   TableSortIcon,
+  TableActions,
+  TableActionsHeader,
 };

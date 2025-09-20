@@ -1,6 +1,10 @@
-import InputFilter from "@/components/MyUi/InputFilter";
-import MultiDeleteFilter from "@/components/MyUi/MultiDeleteFilter";
-import SelectFilters from "@/components/MyUi/SelectFilters";
+import {
+  FilterMultiDelete,
+  FilterReset,
+  InputFilter,
+  SelectFilter,
+  SelectFilters,
+} from "@/components/MyUi/FilterComponents";
 
 const PortalFilter = ({
   table,
@@ -24,6 +28,12 @@ const PortalFilter = ({
             placeholder="Search by app name"
           />
 
+          <SelectFilter
+            column={table.getColumn("portalUrl")}
+            placeholder="Filter by portal URL"
+            options={portalUrlOptions}
+          />
+
           <SelectFilters
             column={table.getColumn("portalUrl")}
             placeholder="Filter by portal URL"
@@ -32,11 +42,14 @@ const PortalFilter = ({
         </div>
 
         {/* Reset filter and onMultiDelete buttons */}
-        <MultiDeleteFilter
-          rowSelection={rowSelection}
-          handleMultiDelete={handleMultiDelete}
-          resetFilters={resetFilters}
-        />
+        <div className="flex items-center gap-2">
+          <FilterMultiDelete
+            rowSelection={rowSelection}
+            handleMultiDelete={handleMultiDelete}
+          />
+
+          <FilterReset resetFilters={resetFilters} />
+        </div>
       </div>
     </div>
   );
