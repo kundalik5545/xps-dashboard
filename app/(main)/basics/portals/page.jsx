@@ -4,8 +4,13 @@ import PageHeader from "@/components/MyUi/PageHeader";
 import { useEffect, useState } from "react";
 import { portalColumns } from "./_components/PortalColumns";
 import PortalTable from "./_components/PortalTable";
-import { deletePortal, getAllPortals } from "@/actions/basics/portals";
+import {
+  addUpdatePortal,
+  deletePortal,
+  getAllPortals,
+} from "@/actions/basics/portals";
 import { toast } from "sonner";
+import PortalForm from "./_components/PortalForm";
 
 //Page Header props
 const pageTitle = "Portals Page";
@@ -16,6 +21,7 @@ const page = () => {
   const [data, setData] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [editingData, setEditingData] = useState(null);
 
   useEffect(() => {
     const fetchPortals = async () => {
@@ -30,8 +36,39 @@ const page = () => {
     return () => {};
   }, []);
 
+  const handleSubmit = async (formData) => {
+    const actions = isEditing ? "update" : "add";
+
+    const payload = isEditing ? { formData, id: editingData.id } : formData;
+
+    const res = await addUpdatePortal({ payload, actions });
+
+    console.log("res", res);
+    if (!res.success) {
+      toast.error(
+        `❌ Failed to ${isEditing ? "update" : "add"} portal: ` + res.message
+      );
+    }
+
+    if (res.success) {
+      toast.success(
+        `✅ Portal ${isEditing ? "updated" : "added"} successfully`
+      );
+      setIsDialogOpen(false);
+      // Refresh the data
+      const updatedData = isEditing
+        ? data.map((item) => (item.id === res.data.id ? res.data : item))
+        : [...data, res.data];
+
+      setData(updatedData);
+      setIsEditing(false);
+      setEditingData(null);
+    }
+  };
+
   const onEdit = (record) => {
-    setIsEditing(record);
+    setEditingData(record);
+    setIsEditing(true);
     setIsDialogOpen(true);
   };
 
@@ -82,7 +119,9 @@ const page = () => {
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
         isEditing={isEditing}
-        myForm={<div>My Form Content</div>}
+        myForm={
+          <PortalForm onFormSubmit={handleSubmit} editingData={editingData} />
+        }
       />
     </div>
   );

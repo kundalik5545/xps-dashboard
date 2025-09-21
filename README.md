@@ -52,8 +52,8 @@
 
    ```sh
    pnpm add -D prisma
+   npx prisma init --datasource-provider sqlite
    pnpm add @prisma/client
-   pnpm add sqlite3
    ```
 
 2. **Initialize Prisma in your project:**
