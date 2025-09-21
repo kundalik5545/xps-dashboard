@@ -1,15 +1,14 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
 }
 
-// datasource db {
-//   provider = "sqlite"
-//   url      = "file:./dev.db"
-// }
-
-datasource pg_db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 enum PortalType {

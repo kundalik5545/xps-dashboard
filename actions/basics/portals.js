@@ -17,6 +17,11 @@ const getAllPortals = async () => {
     );
   }
 };
+
+const addUpdatePortal = async ({ formData, mode }) => {
+  await prisma;
+};
+
 const deletePortal = async (deleteId) => {
   try {
     const res = await prisma.portal.delete({
@@ -36,4 +41,4 @@ const deletePortal = async (deleteId) => {
   }
 };
 
-export { getAllPortals, deletePortal };
+export { getAllPortals, addUpdatePortal, deletePortal };
