@@ -1,23 +1,16 @@
-import { FunnelX } from "lucide-react";
+import { Funnel, FunnelX } from "lucide-react";
 import { Button } from "../ui/button";
-import { Funnel } from "lucide-react";
 import { Input } from "../ui/input";
-import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 
-const FilterMultiDelete = ({ rowSelection, handleMultiDelete }) => {
+const FilterMultiDelete = ({ rowSelection, handleMultiDelete, loading }) => {
   return (
     <div>
       {handleMultiDelete &&
         rowSelection &&
         Object.keys(rowSelection).length > 0 && (
           <Button onClick={handleMultiDelete} variant={"destructive"}>
-            Delete Selected
+            {loading ? "Deleting..." : "Delete Selected"}
           </Button>
         )}
     </div>
@@ -28,7 +21,11 @@ const FilterReset = ({ resetFilters }) => {
   return (
     <div>
       {resetFilters && (
-        <Button onClick={resetFilters} variant={"outline"}>
+        <Button
+          onClick={resetFilters}
+          variant={"outline"}
+          className={"text-muted-foreground"}
+        >
           <FunnelX />
           Reset Filters
         </Button>
@@ -41,7 +38,7 @@ const InputFilter = ({ column, placeholder = "Search..." }) => {
   const value = column?.getFilterValue() || "";
 
   return (
-    <div className="relative max-w-xs">
+    <div className="relative max-w-[240px] md:max-w-xs">
       <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
         <Funnel className="w-4 h-4 text-muted-foreground" />
       </div>
@@ -57,72 +54,37 @@ const InputFilter = ({ column, placeholder = "Search..." }) => {
 };
 
 const SelectFilter = ({ column, placeholder = "Select...", options = [] }) => {
-  const val = column?.getFilterValue() ?? "all";
+  const val = column?.getFilterValue() ?? "";
 
-  // Helper function to handle value changes
   const handleValueChange = (selectedValue) => {
     if (!column) return;
     column.setFilterValue(selectedValue === "all" ? "" : selectedValue);
   };
 
   return (
-    <Select value={val} onValueChange={handleValueChange}>
-      <SelectTrigger className="relative max-w-xs">
-        {val === "all"
-          ? "All"
-          : options.find((opt) => String(opt.value) === String(val))?.label ||
-            placeholder}
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="all">All</SelectItem>
-        {options.map((opt) => (
-          <SelectItem
-            key={`${opt.value}-${opt.label}`}
-            value={String(opt.value)}
-          >
-            {opt.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="relative max-w-[240px] md:max-w-xs">
+      <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+        <Funnel className="w-4 h-4 text-muted-foreground" />
+      </div>
+      <Select value={val} onValueChange={handleValueChange}>
+        {/* ✅ add pl-8 so text doesn't overlap the icon */}
+        <SelectTrigger className="min-w-[240px] pl-8">
+          {val === "all"
+            ? "All"
+            : options.find((opt) => String(opt.value) === String(val))?.label ||
+              placeholder}
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All</SelectItem>
+          {options.map((opt) => (
+            <SelectItem key={String(opt.value)} value={String(opt.value)}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };
 
-const SelectFilters = ({ column, options = [], placeholder = "Select..." }) => {
-  const val = column?.getFilterValue() ?? "";
-
-  return (
-    <Select
-      value={val === "" ? undefined : String(val)}
-      onValueChange={(selectedValue) => {
-        if (!column) return;
-        column.setFilterValue(selectedValue === "all" ? "" : selectedValue);
-      }}
-    >
-      <SelectTrigger className="min-w-[240px]">
-        {val === "all"
-          ? "All"
-          : options.find((opt) => String(opt.value) === String(val))?.label ||
-            placeholder}
-      </SelectTrigger>
-
-      <SelectContent>
-        <SelectItem value="all">All</SelectItem>
-
-        {options.map((opt) => (
-          <SelectItem key={String(opt.value)} value={String(opt.value)}>
-            {opt.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-};
-
-export {
-  FilterMultiDelete,
-  FilterReset,
-  InputFilter,
-  SelectFilter,
-  SelectFilters,
-};
+export { FilterMultiDelete, FilterReset, InputFilter, SelectFilter };

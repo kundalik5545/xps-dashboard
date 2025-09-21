@@ -1,12 +1,8 @@
 "use client";
-import {
-  InputFilter,
-  SelectFilter,
-  SelectFilters,
-} from "@/components/MyUi/FilterComponents";
-import FormModal from "@/components/MyUi/FormModal";
-import PageHeader from "@/components/MyUi/PageHeader";
-import React, { useState } from "react";
+import { InputFilter, SelectFilter } from "@/components/myUi/FilterComponents";
+import FormModal from "@/components/myUi/FormModal";
+import PageHeader from "@/components/myUi/PageHeader";
+import { useState } from "react";
 
 //Page Header props
 const pageTitle = "Users Page";
@@ -35,12 +31,6 @@ const page = () => {
       <InputFilter column={null} placeholder="Search Users..." />
 
       <SelectFilter
-        column={null}
-        placeholder="Filter by Role"
-        options={options}
-      />
-
-      <SelectFilters
         column={null}
         placeholder="Filter by Role"
         options={options}

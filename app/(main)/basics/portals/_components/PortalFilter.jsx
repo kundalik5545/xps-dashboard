@@ -2,20 +2,22 @@ import {
   FilterMultiDelete,
   FilterReset,
   InputFilter,
-  SelectFilters,
-} from "@/components/MyUi/FilterComponents";
+  SelectFilter,
+} from "@/components/myUi/FilterComponents";
+import { cn } from "@/lib/utils";
 
 const PortalFilter = ({
   table,
   rowSelection,
   resetFilters,
   handleMultiDelete,
+  loading,
 }) => {
   return (
     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between flex-wrap">
       {/* Left side: filters */}
       <div className="flex flex-col gap-3 w-full md:flex-row md:flex-1 md:items-center">
-        <SelectFilters
+        <SelectFilter
           column={table.getColumn("portalName")}
           placeholder="Filter by portal Name"
           options={portalNames}
@@ -28,10 +30,13 @@ const PortalFilter = ({
       </div>
 
       {/* Right side: actions */}
-      <div className="flex items-center gap-2 w-full md:w-auto justify-start md:justify-end">
+      <div
+        className={cn("flex items-center", rowSelection ? "gap-2" : "gap-0")}
+      >
         <FilterMultiDelete
           rowSelection={rowSelection}
           handleMultiDelete={handleMultiDelete}
+          loading={loading}
         />
         <FilterReset resetFilters={resetFilters} />
       </div>

@@ -1,6 +1,6 @@
 "use client";
-import { AppSidebar } from "@/components/app-sidebar";
-import ModeToggle from "@/components/AppLayout/ModeToggle";
+import { AppSidebar } from "@/components/appLayout/app-sidebar";
+import ModeToggle from "@/components/appLayout/ModeToggle";
 import {
   Breadcrumb,
   BreadcrumbItem,

@@ -2,10 +2,10 @@
 
 import * as React from "react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { NavMain } from "@/components/appLayout/nav-main";
+import { NavProjects } from "@/components/appLayout/nav-projects";
+import { NavUser } from "@/components/appLayout/nav-user";
+import { TeamSwitcher } from "@/components/appLayout/team-switcher";
 import {
   Sidebar,
   SidebarContent,

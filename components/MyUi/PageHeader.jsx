@@ -12,9 +12,10 @@ const PageHeader = ({
   setIsEditing,
 }) => {
   const isMobile = useIsMobile();
+
   return (
-    <div className="flex flex-col justify-between mb-6 mt-3 ">
-      <div className="pageHeader__title flex items-center justify-between">
+    <div className="pageHeader flex flex-col justify-between mb-6 mt-3">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{pageTitle}</h1>
         {buttonText && (
           <Button

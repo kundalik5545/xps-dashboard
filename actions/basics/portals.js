@@ -67,4 +67,29 @@ const deletePortal = async (deleteId) => {
   }
 };
 
-export { getAllPortals, addUpdatePortal, deletePortal };
+// Multidelete portals server action
+const multiDeletePortals = async (selectedIds) => {
+  try {
+    const result = await prisma.portal.deleteMany({
+      where: {
+        id: { in: selectedIds },
+      },
+    });
+
+    return ApiRes(
+      true,
+      STATUS.OK,
+      `${result.count} portal(s) deleted successfully.`,
+      result
+    );
+  } catch (error) {
+    return ApiRes(
+      false,
+      STATUS.INTERNAL_SERVER_ERROR,
+      `Error while deleting portals: ${error.message}`,
+      null
+    );
+  }
+};
+
+export { getAllPortals, addUpdatePortal, deletePortal, multiDeletePortals };

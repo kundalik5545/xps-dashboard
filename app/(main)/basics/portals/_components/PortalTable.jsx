@@ -3,8 +3,8 @@ import {
   TableNoResults,
   TableRowCellCheckBox,
   TableRowCellText,
-} from "@/components/MyUi/TableComponents";
-import TablePagination from "@/components/MyUi/TablePagination";
+} from "@/components/myUi/TableComponents";
+import TablePagination from "@/components/myUi/TablePagination";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -23,7 +23,7 @@ import {
 import { useState } from "react";
 import PortalFilter from "./PortalFilter";
 
-const PortalTable = ({ data, columns, onEdit, onDelete, onMultiRowDelete }) => {
+const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -48,7 +48,10 @@ const PortalTable = ({ data, columns, onEdit, onDelete, onMultiRowDelete }) => {
   const handleMultiDelete = () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     const selectedIds = selectedRows.map((row) => row.original.id);
-    onMultiRowDelete(selectedIds);
+    const res = onMultiRowDelete(selectedIds);
+    if (res && res.then) {
+      res.then(() => table.resetRowSelection());
+    }
   };
 
   const resetFilters = () => {
@@ -65,6 +68,7 @@ const PortalTable = ({ data, columns, onEdit, onDelete, onMultiRowDelete }) => {
         rowSelection={rowSelection}
         resetFilters={resetFilters}
         handleMultiDelete={handleMultiDelete}
+        loading={loading}
       />
 
       {/* Table */}

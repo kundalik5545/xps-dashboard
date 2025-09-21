@@ -1,5 +1,5 @@
 "use client";
-import ModeToggle from "@/components/AppLayout/ModeToggle";
+import ModeToggle from "@/components/appLayout/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { seedPortals } from "@/seed/seedData";
 import { ArrowRight } from "lucide-react";

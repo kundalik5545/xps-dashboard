@@ -1,16 +1,19 @@
 "use client";
-import FormModal from "@/components/MyUi/FormModal";
-import PageHeader from "@/components/MyUi/PageHeader";
-import { useEffect, useState } from "react";
-import { portalColumns } from "./_components/PortalColumns";
-import PortalTable from "./_components/PortalTable";
 import {
   addUpdatePortal,
   deletePortal,
   getAllPortals,
+  multiDeletePortals,
 } from "@/actions/basics/portals";
+import FormModal from "@/components/myUi/FormModal";
+import PageHeader from "@/components/myUi/PageHeader";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { portalColumns } from "./_components/PortalColumns";
 import PortalForm from "./_components/PortalForm";
+import PortalTable from "./_components/PortalTable";
+import { useMultiDelete } from "@/hooks/useMultiDelete";
+import useSingleDelete from "@/hooks/useSingleDelete";
 
 //Page Header props
 const pageTitle = "Portals Page";
@@ -43,7 +46,6 @@ const page = () => {
 
     const res = await addUpdatePortal({ payload, actions });
 
-    console.log("res", res);
     if (!res.success) {
       toast.error(
         `❌ Failed to ${isEditing ? "update" : "add"} portal: ` + res.message
@@ -54,7 +56,9 @@ const page = () => {
       toast.success(
         `✅ Portal ${isEditing ? "updated" : "added"} successfully`
       );
+
       setIsDialogOpen(false);
+
       // Refresh the data
       const updatedData = isEditing
         ? data.map((item) => (item.id === res.data.id ? res.data : item))
@@ -72,27 +76,15 @@ const page = () => {
     setIsDialogOpen(true);
   };
 
-  const onDelete = async (id) => {
-    try {
-      const res = await deletePortal(id);
+  const { onDelete } = useSingleDelete({
+    setData,
+    deleteAction: deletePortal,
+  });
 
-      if (res.success) {
-        const updatedData = data.filter((item) => item.id !== id);
-        setData(updatedData);
-        toast.success("✅ Deleted successfully");
-      } else {
-        toast.error("❌ Failed to delete: " + res.message);
-      }
-    } catch (error) {
-      console.error("⚠️ Unexpected error while deleting:", error);
-      return ApiRes(
-        false,
-        STATUS.INTERNAL_SERVER_ERROR,
-        `Unexpected error: ${error.message}`,
-        null
-      );
-    }
-  };
+  const { handleMultiDelete, loading } = useMultiDelete({
+    multiDeleteFn: multiDeletePortals,
+    setData,
+  });
 
   return (
     <div className="">
@@ -109,9 +101,8 @@ const page = () => {
       <PortalTable
         data={data}
         columns={portalColumns({ onEdit, onDelete })}
-        onEdit={() => {}}
-        onDelete={() => {}}
-        onMultiRowDelete={() => {}}
+        onMultiRowDelete={handleMultiDelete}
+        loading={loading}
       />
 
       {/* Form */}
