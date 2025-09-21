@@ -6,6 +6,12 @@
 2. **Add prisma to project**
 3. **Update prisma models and migrate them**
 4. **Create github repo**
+5. **Create update basic layout & add shadcn dashboard**
+6. **Start creating folder structure**
+7. **Add Shadcn components**
+8. **Add Motion Primitives**
+9. **Create server action, forms, add myUi components**
+10. **start writting code..**
 
 ## Technologies Used 🛠️
 

@@ -5,6 +5,7 @@ import { ApiRes } from "@/lib/ApiResponse";
 import { portalFormSchema, ZodFormValidator } from "@/lib/schema/FormSchema";
 import STATUS from "@/lib/Statuses";
 
+// Fetch all portals from db
 const getAllPortals = async () => {
   try {
     const res = await prisma.portal.findMany();
@@ -19,6 +20,7 @@ const getAllPortals = async () => {
   }
 };
 
+//Add update Portal
 const addUpdatePortal = async ({ payload, actions }) => {
   // zod form data validator
   const parseResult = ZodFormValidator({
@@ -48,6 +50,7 @@ const addUpdatePortal = async ({ payload, actions }) => {
   }
 };
 
+//Delete single portal
 const deletePortal = async (deleteId) => {
   try {
     const res = await prisma.portal.delete({
