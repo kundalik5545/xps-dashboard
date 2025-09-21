@@ -1,5 +1,12 @@
 # XPS Dashboard &mdash; Track Your Daily Testing Activity 🚀
 
+## Steps to follow
+
+1. **Create App using pnpm**
+2. **Add prisma to project**
+3. **Update prisma models and migrate them**
+4. **Create github repo**
+
 ## Technologies Used 🛠️
 
 - **Next.js** &mdash; Fullstack React Framework ⚛️
@@ -38,6 +45,51 @@
 - Improved team collaboration 🤝
 - Secure information storage 🛡️
 - Streamlined workflow organization 🏃‍♂️
+
+## How to install Prisma
+
+1. **Install Prisma CLI and SQLite as a dev dependency:**
+
+   ```sh
+   pnpm add -D prisma
+   pnpm add @prisma/client
+   pnpm add sqlite3
+   ```
+
+2. **Initialize Prisma in your project:**
+
+   ```sh
+   npx prisma init --datasource-provider sqlite
+   ```
+
+   This creates a `prisma` folder with a `schema.prisma` file and a `.env` file.
+
+3. **Define your data model:**
+
+   Edit `prisma/schema.prisma` and add your models. For example:
+
+   ```prisma
+   model User {
+     id    Int     @id @default(autoincrement())
+     name  String
+     email String  @unique
+   }
+   ```
+
+4. **Run the first migration:**
+
+   ```sh
+   npx prisma migrate dev --name init
+   ```
+
+   This will create your SQLite database and apply the migration.
+
+5. **Generate Prisma Client:**
+   ```sh
+   npx prisma generate
+   ```
+
+Your Prisma setup with SQLite is now ready!
 
 ---
 
