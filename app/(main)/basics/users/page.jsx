@@ -15,6 +15,7 @@ import { userColumns } from "./_components/UserColumns";
 import { useMultiDelete } from "@/hooks/useMultiDelete";
 import useSingleDelete from "@/hooks/useSingleDelete";
 import { toast } from "sonner";
+import UserForm2 from "./_components/UserForm2";
 
 //Page Header props data
 const pageTitle = "Users Page";
@@ -109,7 +110,7 @@ const page = () => {
         setIsDialogOpen={setIsDialogOpen}
         isEditing={isEditing}
         myForm={
-          <UserForm onFormSubmit={handleSubmit} editingData={editingData} />
+          <UserForm2 onFormSubmit={handleSubmit} editingData={editingData} />
         }
       />
     </div>

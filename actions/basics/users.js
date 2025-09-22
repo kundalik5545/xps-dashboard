@@ -3,7 +3,11 @@
 import prisma from "@/db/db.config";
 import { ApiRes } from "@/lib/ApiResponse";
 import { logger } from "@/lib/Log";
-import { userFormSchema, ZodFormValidator } from "@/lib/schema/FormSchema";
+import {
+  userFormSchema,
+  userFormSchema2,
+  ZodFormValidator,
+} from "@/lib/schema/FormSchema";
 import STATUS from "@/lib/Statuses";
 
 // Fetch all users
@@ -29,7 +33,7 @@ async function getUserById(id) {
     return ApiRes(
       false,
       STATUS.BAD_REQUEST,
-      "Please provide valide Number typr Id."
+      "Please provide valide Number type Id."
     );
 
   try {
@@ -51,15 +55,21 @@ async function addUpdateUser({ payload, actions }) {
     // zod form data validator
     const parseResult = ZodFormValidator({
       payload,
-      formSchema: userFormSchema,
+      formSchema: userFormSchema2,
     });
 
-    // Add new entry
+    if (!parseResult)
+      return ApiRes(false, STATUS.BAD_REQUEST, "Invalid user form data.");
+
     if (actions === "add") {
+      // Add new entry
       const userIdProvided = [];
 
-      if (payload.xpsId != null) userIdProvided.push(payload.xpsId);
-      if (payload.eMemberId != null) userIdProvided.push(payload.eMemberId);
+      if (payload.xpsId != null && payload.xpsId != 0)
+        userIdProvided.push({ xpsId: payload.xpsId });
+
+      if (payload.eMemberId != null && payload.eMemberId != 0)
+        userIdProvided.push({ eMemberId: payload.eMemberId });
 
       // if no unique-ish fields provide from frontend, just create new record
       if (userIdProvided.length === 0) {
@@ -92,7 +102,7 @@ async function addUpdateUser({ payload, actions }) {
           throw err;
         }
 
-        return tx.user.create({ data });
+        return tx.user.create({ data: parseResult.data });
       });
 
       return ApiRes(
@@ -108,11 +118,11 @@ async function addUpdateUser({ payload, actions }) {
       const { id } = payload;
 
       // Checking id is number or not
-      if (typeof id !== Number)
+      if (typeof id !== "number")
         return ApiRes(
           false,
           STATUS.BAD_REQUEST,
-          "Please provide valide Number typr Id."
+          "Please provide valide Number type Id."
         );
 
       const res = await prisma.user.update({
@@ -126,6 +136,7 @@ async function addUpdateUser({ payload, actions }) {
     }
   } catch (error) {
     logger.db(error.message);
+
     return ApiRes(
       false,
       STATUS.INTERNAL_SERVER_ERROR,

@@ -13,7 +13,7 @@ const FormModal = ({ isDialogOpen, setIsDialogOpen, isEditing, myForm }) => {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent
           className={
-            "max-w-[350px] max-h-[90vh] overflow-y-auto scrollbar-hide"
+            "max-w-[350px] md:max-w-[850px] max-h-[90vh] overflow-y-auto scrollbar-hide"
           }
         >
           <DialogHeader>

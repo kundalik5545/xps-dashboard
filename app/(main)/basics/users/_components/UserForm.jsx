@@ -58,6 +58,7 @@ const niRegex = /^[A-CEGHJ-PR-TW-Z]{2}\d{6}[A-D]$/i;
 const positiveInt = z
   .string()
   .optional()
+  .nullable()
   .refine(
     (val) => {
       if (!val || val === "") return true;
