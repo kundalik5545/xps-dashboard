@@ -16,7 +16,7 @@ import { useMultiDelete } from "@/hooks/useMultiDelete";
 import useSingleDelete from "@/hooks/useSingleDelete";
 import { toast } from "sonner";
 
-//Page Header props
+//Page Header props data
 const pageTitle = "Users Page";
 const buttonText = "Add New User";
 const pageDesc = "Manage your portals here.";
