@@ -4,6 +4,7 @@ import {
   InputFilter,
   SelectFilter,
 } from "@/components/myUis/FilterComponents";
+import { TableColVisibilitySelect } from "@/components/myUis/TableComponents";
 import { cn } from "@/lib/utils";
 
 const PortalFilter = ({
@@ -28,6 +29,9 @@ const PortalFilter = ({
           placeholder="Search by app name"
         />
       </div>
+
+      {/* Hide show columns */}
+      <TableColVisibilitySelect table={table} />
 
       {/* Right side: actions */}
       <div

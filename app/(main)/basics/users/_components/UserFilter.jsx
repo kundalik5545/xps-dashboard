@@ -3,6 +3,7 @@ import {
   FilterReset,
   InputFilter,
 } from "@/components/myUis/FilterComponents";
+import { TableColVisibilitySelect } from "@/components/myUis/TableComponents";
 import { cn } from "@/lib/utils";
 
 const UserFilter = ({
@@ -21,6 +22,9 @@ const UserFilter = ({
           placeholder="Search by user name"
         />
       </div>
+
+      {/* Hide show columns */}
+      <TableColVisibilitySelect table={table} />
 
       {/* Right side: actions */}
       <div

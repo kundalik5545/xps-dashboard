@@ -1,3 +1,5 @@
+"use client";
+
 import { flexRender } from "@tanstack/react-table";
 import {
   ArrowDownUp,
@@ -9,6 +11,24 @@ import { Checkbox } from "../ui/checkbox";
 import { TableCell, TableHead, TableRow } from "../ui/table";
 import { Pencil } from "lucide-react";
 import { Trash2 } from "lucide-react";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
+import { EyeClosed } from "lucide-react";
+import { Columns3 } from "lucide-react";
 
 // Checkbox Component => For selecting all rows in the table
 const TableHeadCheckBox = ({ table }) => {
@@ -135,6 +155,41 @@ const TableActions = ({ record, onEdit, onDelete }) => {
 const TableActionsHeader = () => {
   return <span className="flex items-end justify-end text-end">Actions</span>;
 };
+
+const TableColVisibilitySelect = ({ table }) => {
+  if (!table) return null;
+
+  return (
+    <div className="inline-block text-left">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="ml-auto">
+            <Columns3 />
+            Hide Columns <ChevronDown />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {table
+            .getAllColumns()
+            .filter((column) => column.getCanHide())
+            .map((column) => {
+              return (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+};
+
 export {
   TableHeadCheckBox,
   TableHeading,
@@ -145,4 +200,5 @@ export {
   TableSortIcon,
   TableActions,
   TableActionsHeader,
+  TableColVisibilitySelect,
 };
