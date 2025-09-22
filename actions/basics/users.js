@@ -1,5 +1,8 @@
+"use server";
+
 import prisma from "@/db/db.config";
 import { ApiRes } from "@/lib/ApiResponse";
+import { logger } from "@/lib/Log";
 import { userFormSchema, ZodFormValidator } from "@/lib/schema/FormSchema";
 import STATUS from "@/lib/Statuses";
 
@@ -7,6 +10,7 @@ import STATUS from "@/lib/Statuses";
 const getAllUsers = async () => {
   try {
     const res = await prisma.user.findMany();
+
     return ApiRes(true, STATUS.OK, "Fetched all users.", res);
   } catch (error) {
     return ApiRes(
@@ -20,9 +24,17 @@ const getAllUsers = async () => {
 
 // Get a single user by ID
 async function getUserById(id) {
+  // Checking id is number or not
+  if (typeof id !== Number)
+    return ApiRes(
+      false,
+      STATUS.BAD_REQUEST,
+      "Please provide valide Number typr Id."
+    );
+
   try {
     const res = prisma.user.findUnique({ where: { id } });
-    return ApiRes(true, STATUS.OK, "Fetched user details.", res);
+    if (res) return ApiRes(true, STATUS.OK, "Fetched user details.", res);
   } catch (error) {
     return ApiRes(
       false,
@@ -35,36 +47,95 @@ async function getUserById(id) {
 
 // Create a new user or update existing one
 async function addUpdateUser({ payload, actions }) {
-  // zod form data validator
-  const parseResult = ZodFormValidator({
-    payload,
-    formSchema: userFormSchema,
-  });
-
-  // Add new entry
-  if (actions === "add") {
-    const res = await prisma.user.create({ data: parseResult.data });
-
-    return ApiRes(true, STATUS.CREATED, "New user added successfuly", res);
-  }
-
-  // Update new entry
-  if (actions === "update") {
-    const { id } = payload;
-
-    const res = await prisma.user.update({
-      where: {
-        id,
-      },
-      data: parseResult.data,
+  try {
+    // zod form data validator
+    const parseResult = ZodFormValidator({
+      payload,
+      formSchema: userFormSchema,
     });
 
-    return ApiRes(true, STATUS.OK, "User details updated successfuly", res);
+    // Add new entry
+    if (actions === "add") {
+      const userIdProvided = [];
+
+      if (payload.xpsId != null) userIdProvided.push(payload.xpsId);
+      if (payload.eMemberId != null) userIdProvided.push(payload.eMemberId);
+
+      // if no unique-ish fields provide from frontend, just create new record
+      if (userIdProvided.length === 0) {
+        const newUser = await prisma.user.create({ data: parseResult.data });
+
+        return ApiRes(
+          true,
+          STATUS.CREATED,
+          "New user added successfully",
+          newUser
+        );
+      }
+
+      // if unique-ish field is provided then check it already exist or not & then create
+      const newUserCreated = await prisma.$transaction(async (tx) => {
+        const existing = await tx.user.findFirst({
+          where: { OR: userIdProvided },
+          select: { id: true, xpsId: true, eMemberId: true },
+        });
+
+        if (existing) {
+          // throw to be caught below
+          const IdExist =
+            existing.xpsId && data.xpsId === existing.xpsId
+              ? `xpsId ${existing.xpsId}`
+              : `eMemberId ${existing.eMemberId}`;
+
+          const err = new Error(`User with ${IdExist} already exists.`);
+          err.meta = { code: "CONFLICT", IdExist };
+          throw err;
+        }
+
+        return tx.user.create({ data });
+      });
+
+      return ApiRes(
+        true,
+        STATUS.CREATED,
+        "New user added successfully",
+        newUserCreated
+      );
+    }
+
+    // Update new entry
+    if (actions === "update") {
+      const { id } = payload;
+
+      // Checking id is number or not
+      if (typeof id !== Number)
+        return ApiRes(
+          false,
+          STATUS.BAD_REQUEST,
+          "Please provide valide Number typr Id."
+        );
+
+      const res = await prisma.user.update({
+        where: {
+          id,
+        },
+        data: parseResult.data,
+      });
+
+      return ApiRes(true, STATUS.OK, "User details updated successfuly", res);
+    }
+  } catch (error) {
+    logger.db(error.message);
+    return ApiRes(
+      false,
+      STATUS.INTERNAL_SERVER_ERROR,
+      `Error - ${error.message}`
+    );
   }
 }
 
 // Delete single user
-async function deleteUser(deleteId) {
+async function deleteUserById(deleteId) {
   try {
     const res = await prisma.user.delete({
       where: {
@@ -109,9 +180,9 @@ async function deleteMultipleUsers(selectedIds) {
 }
 
 export {
+  addUpdateUser,
+  deleteMultipleUsers,
+  deleteUserById,
   getAllUsers,
   getUserById,
-  addUpdateUser,
-  deleteUser,
-  deleteMultipleUsers,
 };
