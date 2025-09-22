@@ -1,7 +1,7 @@
 import {
   TableActions,
   TableActionsHeader,
-} from "@/components/myUi/TableComponents";
+} from "@/components/myUis/TableComponents";
 
 export const portalColumns = ({ onEdit, onDelete }) => [
   {

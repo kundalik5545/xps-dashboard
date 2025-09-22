@@ -1,7 +1,7 @@
 "use client";
-import { InputFilter, SelectFilter } from "@/components/myUi/FilterComponents";
-import FormModal from "@/components/myUi/FormModal";
-import PageHeader from "@/components/myUi/PageHeader";
+import { InputFilter, SelectFilter } from "@/components/myUis/FilterComponents";
+import FormModal from "@/components/myUis/FormModal";
+import PageHeader from "@/components/myUis/PageHeader";
 import { useEffect, useState } from "react";
 import UserForm from "./_components/UserForm";
 import {

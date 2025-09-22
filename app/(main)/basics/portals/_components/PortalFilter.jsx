@@ -3,7 +3,7 @@ import {
   FilterReset,
   InputFilter,
   SelectFilter,
-} from "@/components/myUi/FilterComponents";
+} from "@/components/myUis/FilterComponents";
 import { cn } from "@/lib/utils";
 
 const PortalFilter = ({

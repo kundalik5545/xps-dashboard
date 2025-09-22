@@ -5,8 +5,8 @@ import {
   getAllPortals,
   multiDeletePortals,
 } from "@/actions/basics/portals";
-import FormModal from "@/components/myUi/FormModal";
-import PageHeader from "@/components/myUi/PageHeader";
+import FormModal from "@/components/myUis/FormModal";
+import PageHeader from "@/components/myUis/PageHeader";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { portalColumns } from "./_components/PortalColumns";

@@ -2,7 +2,7 @@ import {
   FilterMultiDelete,
   FilterReset,
   InputFilter,
-} from "@/components/myUi/FilterComponents";
+} from "@/components/myUis/FilterComponents";
 import { cn } from "@/lib/utils";
 
 const UserFilter = ({

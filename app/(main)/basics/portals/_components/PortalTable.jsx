@@ -3,8 +3,8 @@ import {
   TableNoResults,
   TableRowCellCheckBox,
   TableRowCellText,
-} from "@/components/myUi/TableComponents";
-import TablePagination from "@/components/myUi/TablePagination";
+} from "@/components/myUis/TableComponents";
+import TablePagination from "@/components/myUis/TablePagination";
 import { Button } from "@/components/ui/button";
 import {
   Table,
