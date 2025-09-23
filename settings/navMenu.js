@@ -1,4 +1,5 @@
 import { Database } from "lucide-react";
+import { HandHelping } from "lucide-react";
 import { Blocks } from "lucide-react";
 import {
   AudioWaveform,
@@ -112,6 +113,29 @@ export const mainNavMenu = {
         {
           title: "Scripts",
           url: "/database/scripts",
+        },
+        {
+          title: "Info",
+          url: "/database/info",
+        },
+      ],
+    },
+    {
+      title: "Helper",
+      url: "/helper",
+      icon: HandHelping,
+      items: [
+        {
+          title: "XPS Tables",
+          url: "/database/xps-tables",
+        },
+        {
+          title: "eMember Tables",
+          url: "/database/emember-tables",
+        },
+        {
+          title: "Column Builder",
+          url: "/helper/column-builder",
         },
         {
           title: "Info",
