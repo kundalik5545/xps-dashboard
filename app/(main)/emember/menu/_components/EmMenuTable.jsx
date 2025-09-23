@@ -1,11 +1,10 @@
+"use client";
 import {
   TableHeading,
   TableNoResults,
-  TableRowCellCheckBox,
   TableRowCellText,
 } from "@/components/myUis/TableComponents";
 import TablePagination from "@/components/myUis/TablePagination";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -21,9 +20,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import PortalFilter from "./PortalFilter";
+import EmMenuFilter from "./EmMenuFilter";
 
-const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
+const EmMenuTable = ({ data, columns }) => {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -45,15 +44,6 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
     },
   });
 
-  const handleMultiDelete = () => {
-    const selectedRows = table.getFilteredSelectedRowModel().rows;
-    const selectedIds = selectedRows.map((row) => row.original.id);
-    const res = onMultiRowDelete(selectedIds);
-    if (res && res.then) {
-      res.then(() => table.resetRowSelection());
-    }
-  };
-
   const resetFilters = () => {
     setSorting([]);
     setColumnFilters([]);
@@ -63,13 +53,7 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
   return (
     <div>
       {/* Table Filters */}
-      <PortalFilter
-        table={table}
-        rowSelection={rowSelection}
-        resetFilters={resetFilters}
-        handleMultiDelete={handleMultiDelete}
-        loading={loading}
-      />
+      <EmMenuFilter table={table} resetFilters={resetFilters} />
 
       {/* Table */}
       <div className="overflow-x-auto rounded-md shadow-md mt-4">
@@ -78,45 +62,26 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
             <TableHeading
               table={table}
               isTableSort={true}
-              isTableHeadingCheckBox={true}
+              isTableHeadingCheckBox={false}
             />
           </TableHeader>
 
           {/* Table Body */}
           <TableBody>
-            {!data.length > 0 ? (
+            {table.getRowModel().rows.length === 0 ? (
               <TableNoResults columns={columns} />
             ) : (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() ? "selected" : undefined}
                 >
-                  {/* To Select Individual Row */}
-                  <TableRowCellCheckBox row={row} />
-
-                  {/* Custome cell value or else Table Row Cell Text */}
-                  {row.getVisibleCells().map((cell) => {
-                    const columnId = cell.column.id;
-
-                    return (
-                      <TableCell key={cell.id}>
-                        {columnId === "portalUrl" ? (
-                          <Button
-                            className={"text-blue-600 underline cursor-pointer"}
-                            variant="link"
-                            onClick={() =>
-                              window.open(cell.getValue(), "_blank")
-                            }
-                          >
-                            Visit Portal
-                          </Button>
-                        ) : (
-                          <TableRowCellText cell={cell} />
-                        )}
-                      </TableCell>
-                    );
-                  })}
+                  {/* Custom cell value or else Table Row Cell Text */}
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      <TableRowCellText cell={cell} />
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))
             )}
@@ -130,4 +95,4 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
   );
 };
 
-export default PortalTable;
+export default EmMenuTable;

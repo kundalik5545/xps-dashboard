@@ -112,12 +112,12 @@ const TableNoResults = ({ columns }) => {
   );
 };
 
-const TableHeading = ({ table, isTableSort }) => {
+const TableHeading = ({ table, isTableSort, isTableHeadingCheckBox }) => {
   return (
     <>
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
-          <TableHeadCheckBox table={table} />
+          {isTableHeadingCheckBox && <TableHeadCheckBox table={table} />}
 
           {headerGroup.headers.map((header) => (
             <TableHead key={header.id}>

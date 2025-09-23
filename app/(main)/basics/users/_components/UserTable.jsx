@@ -78,7 +78,11 @@ const UserTable = ({ data, columns, onMultiRowDelete, loading }) => {
       <div className="overflow-x-auto rounded-md shadow-md mt-4">
         <Table>
           <TableHeader>
-            <TableHeading table={table} isTableSort={true} />
+            <TableHeading
+              table={table}
+              isTableSort={true}
+              isTableHeadingCheckBox={true}
+            />
           </TableHeader>
 
           {/* Table Body */}
