@@ -126,20 +126,20 @@ export const mainNavMenu = {
       icon: HandHelping,
       items: [
         {
-          title: "XPS Tables",
-          url: "/database/xps-tables",
+          title: "Excel To Json",
+          url: "/helper/excel-to-json",
         },
         {
-          title: "eMember Tables",
-          url: "/database/emember-tables",
+          title: "Json To Excel",
+          url: "/helper/json-to-excel",
         },
         {
           title: "Column Builder",
           url: "/helper/column-builder",
         },
         {
-          title: "Info",
-          url: "/database/info",
+          title: "Seed To DB",
+          url: "/helper/seed-to-db",
         },
       ],
     },
