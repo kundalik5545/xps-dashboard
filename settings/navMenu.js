@@ -55,7 +55,7 @@ export const mainNavMenu = {
         },
         {
           title: "Daily Comments",
-          url: "/basics/comments",
+          url: "/basics/daily-comments",
         },
       ],
     },
