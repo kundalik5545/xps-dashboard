@@ -7,13 +7,13 @@ import {
 } from "@/actions/basics/portals";
 import FormModal from "@/components/myUis/FormModal";
 import PageHeader from "@/components/myUis/PageHeader";
+import { useMultiDelete } from "@/hooks/useMultiDelete";
+import useSingleDelete from "@/hooks/useSingleDelete";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { portalColumns } from "./_components/PortalColumns";
 import PortalForm from "./_components/PortalForm";
 import PortalTable from "./_components/PortalTable";
-import { useMultiDelete } from "@/hooks/useMultiDelete";
-import useSingleDelete from "@/hooks/useSingleDelete";
 
 //Page Header props
 const pageTitle = "Portals Page";
@@ -21,17 +21,18 @@ const buttonText = "Add New Portal";
 const pageDesc = "Manage your portals here.";
 
 const page = () => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingData, setEditingData] = useState(null);
+  const [portalData, setPortalData] = useState([]);
 
   useEffect(() => {
     const fetchPortals = async () => {
       const res = await getAllPortals();
 
       if (res.success) {
-        setData(res.data);
+        setPortalData(res.data);
       }
     };
 
@@ -61,10 +62,10 @@ const page = () => {
 
       // Refresh the data
       const updatedData = isEditing
-        ? data.map((item) => (item.id === res.data.id ? res.data : item))
-        : [...data, res.data];
+        ? portalData.map((item) => (item.id === res.data.id ? res.data : item))
+        : [...portalData, res.data];
 
-      setData(updatedData);
+      setPortalData(updatedData);
       setIsEditing(false);
       setEditingData(null);
     }
@@ -77,17 +78,17 @@ const page = () => {
   };
 
   const { onDelete } = useSingleDelete({
-    setData,
+    setPortalData,
     deleteAction: deletePortal,
   });
 
   const { handleMultiDelete, loading } = useMultiDelete({
     multiDeleteFn: multiDeletePortals,
-    setData,
+    setPortalData,
   });
 
   return (
-    <div className="">
+    <div>
       {/* Page Heading */}
       <PageHeader
         pageTitle={pageTitle}
@@ -98,12 +99,14 @@ const page = () => {
       />
 
       {/* Table */}
-      <PortalTable
-        data={data}
-        columns={portalColumns({ onEdit, onDelete })}
-        onMultiRowDelete={handleMultiDelete}
-        loading={loading}
-      />
+      <div className="grid grid-cols-1 gap-4 overflow-x-auto rounded-md shadow-md mt-4 p-3">
+        <PortalTable
+          data={portalData}
+          columns={portalColumns({ onEdit, onDelete })}
+          onMultiRowDelete={handleMultiDelete}
+          loading={loading}
+        />
+      </div>
 
       {/* Form */}
       <FormModal

@@ -9,6 +9,7 @@ import STATUS from "@/lib/Statuses";
 const getAllPortals = async () => {
   try {
     const res = await prisma.portal.findMany();
+
     return ApiRes(true, STATUS.OK, "All portals fetched.", res);
   } catch (error) {
     return ApiRes(

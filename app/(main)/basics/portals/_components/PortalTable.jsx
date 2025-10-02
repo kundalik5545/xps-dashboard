@@ -1,3 +1,4 @@
+import Loading from "@/app/Loading";
 import {
   TableHeading,
   TableNoResults,
@@ -60,6 +61,9 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
     setRowSelection({});
   };
 
+  if (!table) return null;
+  if (!data) return <Loading />;
+
   return (
     <div>
       {/* Table Filters */}
@@ -72,7 +76,7 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
       />
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-md shadow-md mt-4">
+      <div className="overflow-x-auto mt-4">
         <Table>
           <TableHeader>
             <TableHeading
@@ -84,7 +88,7 @@ const PortalTable = ({ data, columns, onMultiRowDelete, loading }) => {
 
           {/* Table Body */}
           <TableBody>
-            {!data.length > 0 ? (
+            {!data ? (
               <TableNoResults columns={columns} />
             ) : (
               table.getRowModel().rows.map((row) => (

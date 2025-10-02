@@ -48,11 +48,12 @@ const MainLayout = ({ children }) => {
   });
 
   return (
-    <div className="p-3">
+    <div className="">
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          {/* Header with breadcrumb and mode toggle */}
+          <header className="flex items-center justify-between border-b h-16 gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 ">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
               <Separator
@@ -76,9 +77,9 @@ const MainLayout = ({ children }) => {
               <ModeToggle />
             </span>
           </header>
-          <div className="container mx-auto  flex flex-1 flex-col gap-4">
-            {children}
-          </div>
+
+          {/* Main content area */}
+          <div className="container mx-auto pl-3">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </div>

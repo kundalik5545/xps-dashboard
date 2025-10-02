@@ -14,28 +14,28 @@ const UserFilter = ({
   loading,
 }) => {
   return (
-    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between flex-wrap">
+    <div className="grid sm:grid-cols-1 lg:grid-cols-2 items-center gap-4 mb-2">
       {/* Left side: filters */}
-      <div className="flex flex-col gap-3 w-full md:flex-row md:flex-1 md:items-center">
-        <InputFilter
-          column={table.getColumn("userName")}
-          placeholder="Search by user name"
-        />
-      </div>
+      <InputFilter
+        column={table.getColumn("userName")}
+        placeholder="Search by user name"
+      />
 
-      {/* Hide show columns */}
-      <TableColVisibilitySelect table={table} />
+      <div className="flex flex-col items-start sm:flex-row sm:justify-between md:items-center gap-2 md:justify-end">
+        {/* Hide show columns */}
+        <TableColVisibilitySelect table={table} />
 
-      {/* Right side: actions */}
-      <div
-        className={cn("flex items-center", rowSelection ? "gap-2" : "gap-0")}
-      >
-        <FilterMultiDelete
-          rowSelection={rowSelection}
-          handleMultiDelete={handleMultiDelete}
-          loading={loading}
-        />
-        <FilterReset resetFilters={resetFilters} />
+        {/* Right side: actions */}
+        <div
+          className={cn("flex items-center", rowSelection ? "gap-2" : "gap-0")}
+        >
+          <FilterMultiDelete
+            rowSelection={rowSelection}
+            handleMultiDelete={handleMultiDelete}
+            loading={loading}
+          />
+          <FilterReset resetFilters={resetFilters} />
+        </div>
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ const XpsMenuPage = () => {
       <PageHeader pageTitle={pageTitle} pageDesc={pageDesc} />
 
       {/* Table */}
-      <div className="container mx-auto overflow-x-auto rounded-md shadow-md mt-4 p-3">
+      <div className="overflow-x-auto rounded-md shadow-md mt-4 p-3">
         <XpsMenuTable data={data} columns={columns} />
       </div>
     </div>

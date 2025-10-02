@@ -1,21 +1,19 @@
 "use client";
-import { InputFilter, SelectFilter } from "@/components/myUis/FilterComponents";
-import FormModal from "@/components/myUis/FormModal";
-import PageHeader from "@/components/myUis/PageHeader";
-import { useEffect, useState } from "react";
-import UserForm from "./_components/UserForm";
 import {
   addUpdateUser,
   deleteMultipleUsers,
   deleteUserById,
   getAllUsers,
 } from "@/actions/basics/users";
-import UserTable from "./_components/UserTable";
-import { userColumns } from "./_components/UserColumns";
+import FormModal from "@/components/myUis/FormModal";
+import PageHeader from "@/components/myUis/PageHeader";
 import { useMultiDelete } from "@/hooks/useMultiDelete";
 import useSingleDelete from "@/hooks/useSingleDelete";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { userColumns } from "./_components/UserColumns";
 import UserForm2 from "./_components/UserForm2";
+import UserTable from "./_components/UserTable";
 
 //Page Header props data
 const pageTitle = "Users Page";
@@ -97,12 +95,14 @@ const page = () => {
       />
 
       {/* Table */}
-      <UserTable
-        data={data}
-        columns={userColumns({ onEdit, onDelete })}
-        onMultiRowDelete={handleMultiDelete}
-        loading={loading}
-      />
+      <div className="grid grid-cols-1 gap-4 overflow-x-auto rounded-md shadow-md mt-4 p-3">
+        <UserTable
+          data={data}
+          columns={userColumns({ onEdit, onDelete })}
+          onMultiRowDelete={handleMultiDelete}
+          loading={loading}
+        />
+      </div>
 
       {/* Form */}
       <FormModal
