@@ -3,9 +3,10 @@
 import prisma from "@/db/db.config";
 import { portalsList } from "./basics/portals";
 import { usresList } from "./basics/users";
+import { XpsDbColumns } from "./database/XpsDbColumns";
+import { xpsTablesSeed } from "./database/XpsTables";
 import { EmMenuSeedData } from "./emember/menu";
 import { XpsMenuSeedData } from "./xps/xpsMenu";
-import { xpsTablesSeed } from "./database/XpsTables";
 
 const seedPortals = async () => {
   const res = await prisma.portal.createMany({
@@ -46,4 +47,17 @@ const seedXpsDbTables = async () => {
   return res;
 };
 
-export { seedEmMenu, seedPortals, seedUsers, seedXpsMenu, seedXpsDbTables };
+//Seed XPS DB Columns
+const seedXpsDbColumns = async () => {
+  const res = await prisma.xpsColumn.createMany({ data: XpsDbColumns });
+  return res;
+};
+
+export {
+  seedEmMenu,
+  seedPortals,
+  seedUsers,
+  seedXpsDbColumns,
+  seedXpsDbTables,
+  seedXpsMenu,
+};

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   seedEmMenu,
   seedUsers,
+  seedXpsDbColumns,
   seedXpsDbTables,
   seedXpsMenu,
 } from "@/seed/seedData";
@@ -67,6 +68,14 @@ export default function Home() {
           onClick={() => seedXpsDbTables()}
         >
           Seed XPS Db Tables
+        </Button>
+
+        <Button
+          className="w-full"
+          type="button"
+          onClick={() => seedXpsDbColumns()}
+        >
+          Seed XPS Db Columns
         </Button>
       </div>
     </div>
