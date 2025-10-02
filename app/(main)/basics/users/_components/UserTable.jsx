@@ -75,7 +75,7 @@ const UserTable = ({ data, columns, onMultiRowDelete, loading }) => {
       />
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-md shadow-md mt-4">
+      <div className="overflow-x-auto rounded-md shadow-md mt-4 p-3">
         <Table>
           <TableHeader>
             <TableHeading
