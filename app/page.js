@@ -2,7 +2,12 @@
 
 import ModeToggle from "@/components/appLayouts/ModeToggle";
 import { Button } from "@/components/ui/button";
-import { seedEmMenu, seedUsers, seedXpsMenu } from "@/seed/seedData";
+import {
+  seedEmMenu,
+  seedUsers,
+  seedXpsDbTables,
+  seedXpsMenu,
+} from "@/seed/seedData";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -54,6 +59,14 @@ export default function Home() {
 
         <Button className="w-full" type="button" onClick={handleSeedXpsMenu}>
           Seed XPS Menu
+        </Button>
+
+        <Button
+          className="w-full"
+          type="button"
+          onClick={() => seedXpsDbTables()}
+        >
+          Seed XPS Db Tables
         </Button>
       </div>
     </div>

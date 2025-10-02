@@ -5,6 +5,7 @@ import { portalsList } from "./basics/portals";
 import { usresList } from "./basics/users";
 import { EmMenuSeedData } from "./emember/menu";
 import { XpsMenuSeedData } from "./xps/xpsMenu";
+import { xpsTablesSeed } from "./database/XpsTables";
 
 const seedPortals = async () => {
   const res = await prisma.portal.createMany({
@@ -39,4 +40,10 @@ const seedXpsMenu = async () => {
   return res;
 };
 
-export { seedEmMenu, seedPortals, seedUsers, seedXpsMenu };
+//Seed XPS DB Tables
+const seedXpsDbTables = async () => {
+  const res = await prisma.xpsTable.createMany({ data: xpsTablesSeed });
+  return res;
+};
+
+export { seedEmMenu, seedPortals, seedUsers, seedXpsMenu, seedXpsDbTables };

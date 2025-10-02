@@ -38,7 +38,6 @@ const useFetchData = (submitFn, deps = []) => {
     // include submitFn and any additional deps
   }, [submitFn, ...deps]);
 
-  console.log("inside useFetchData hook", data);
   return { data, error, isLoading, setData };
 };
 
