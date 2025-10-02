@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Code } from "lucide-react";
 import { Copy, Download, ExternalLink, Plus } from "lucide-react";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -114,7 +115,7 @@ export default function ColumnsBuilder() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
+    <div className="mt-3 p-3">
       <h2 className="text-xl font-semibold mb-4">TanStack Columns Builder</h2>
 
       <div className="flex items-center gap-2 mb-4">
@@ -147,19 +148,16 @@ export default function ColumnsBuilder() {
             <ExternalLink />
           </Button>
           <Button onClick={handlePreviewToggle}>
-            {previewOpen ? "Hide Preview" : "Preview Code"}
+            <Code /> {previewOpen ? "Hide Preview" : "Preview Code"}
           </Button>
         </div>
       </div>
 
-      <form
-        onSubmit={handleSubmit(onGenerate)}
-        className="space-y-4 border rounded p-4"
-      >
+      <form onSubmit={handleSubmit(onGenerate)} className="space-y-4 rounded ">
         {fields.map((field, idx) => (
           <div key={field.id} className="border rounded p-3 space-y-3">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-4">
                 <Label htmlFor={`accessor-${idx}`}>accessorKey</Label>
                 <Input
                   id={`accessor-${idx}`}
@@ -169,7 +167,7 @@ export default function ColumnsBuilder() {
                 />
               </div>
 
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-4">
                 <Label htmlFor={`header-${idx}`}>header (text)</Label>
                 <Input
                   id={`header-${idx}`}
@@ -179,7 +177,7 @@ export default function ColumnsBuilder() {
                 />
               </div>
 
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-4">
                 <Label htmlFor={`id-${idx}`}>id (optional)</Label>
                 <Input
                   id={`id-${idx}`}

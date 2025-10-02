@@ -31,7 +31,7 @@ const EmMenuPage = () => {
       <PageHeader pageTitle={pageTitle} pageDesc={pageDesc} />
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-md shadow-md mt-4 p-3">
+      <div className="overflow-x-auto rounded-md shadow-md mt-4 p-3 grid grid-cols-1 gap-4">
         <EmMenuTable data={data} columns={columns} />
       </div>
     </div>

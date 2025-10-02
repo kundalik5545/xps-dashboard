@@ -56,7 +56,7 @@ const XpsMenuTable = ({ data, columns }) => {
       <XpsMenuFilter table={table} resetFilters={resetFilters} />
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-md shadow-md mt-4">
+      <div className="overflow-x-auto mt-4 border-b">
         <Table>
           <TableHeader>
             <TableHeading
